@@ -38,6 +38,30 @@ signal.signal(signal.SIGTERM, service_registry.stop_service)
 
 @app.route('/top_k', methods=['POST'])
 def top_k():
+    """
+    Endpoint for retrieving the top-k documents based on a query embedding.
+
+    Parameters:
+    - query_embedding (list): The embedding vector for the query.
+    - k (int): The number of top results to retrieve.
+
+    Returns:
+    - Response: JSON response containing the top-k documents and their embeddings.
+
+    Example:
+        POST /top_k
+        {
+            "query_embedding": [0.1, 0.2, ..., 0.5],
+            "k": 5
+        }
+
+    Note:
+    - The query_embedding is expected to be a list representing the embedding vector for the query.
+    - The 'k' parameter specifies the number of top results to retrieve.
+    - The 'indexes' object is used to search for the top-k documents based on the query embedding.
+    - The response contains a JSON object with 'documents' representing the top-k document IDs
+      and 'documents_embeddings' representing the corresponding embeddings.
+    """
     query_embedding = np.array(request.json['query_embedding']).reshape(1, -1)
     k = request.json['k']
     _, index = indexes.search(query_embedding.astype(np.float32), k)
