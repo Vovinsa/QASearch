@@ -50,9 +50,10 @@ def search():
 
     indexes_url = search_utils.closest_cluster(np.array(query_embedding), service_registry.redis)
 
-    resp = requests.post(indexes_url, json={'query_embedding': query_embedding, 'k': k}).json()
-
-    documents, documents_embeddings = resp['documents'], resp['documents_embeddings']
+    documents = requests.post(indexes_url, json={'query_embedding': query_embedding, 'k': k}).json()['documents']
+    documents_embeddings = requests.post(
+        'embedder:8501/v1/models/use:predict', json={'instances': documents}
+    ).json()['predictions']
 
     ranked_documents = requests.post(
         'ranker:8001/rank',
