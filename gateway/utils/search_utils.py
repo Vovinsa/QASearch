@@ -33,7 +33,7 @@ def closest_cluster(query_embedding: np.ndarray, client: Redis) -> str:
         sim = similarity(query_embedding, center)
 
         if sim > max_sim:
-            indexes_url = f'{key}:{port}/top_k'
+            indexes_url = f'http://{key}:{port}/top_k'
 
     return indexes_url
 
