@@ -17,8 +17,6 @@ center = ','.join([str(num) for num in center])
 indexes = faiss.read_index(f'/var/data/indexes/indexes_dg{env.DATA_GENERATION}_cluster{env.CLUSTER}.faiss')
 with open(f'/var/data/other/index_document_cluster{env.CLUSTER}.json') as f:
     index_document = json.load(f)
-with open(f'/var/data/other/document_embedding_cluster{env.CLUSTER}.json') as f:
-    document_embedding = json.load(f)
 
 app = Flask(__name__)
 
@@ -59,12 +57,10 @@ def top_k():
     - The query_embedding is expected to be a list representing the embedding vector for the query.
     - The 'k' parameter specifies the number of top results to retrieve.
     - The 'indexes' object is used to search for the top-k documents based on the query embedding.
-    - The response contains a JSON object with 'documents' representing the top-k document IDs
-      and 'documents_embeddings' representing the corresponding embeddings.
+    - The response contains a JSON object with 'documents' representing the top-k document IDs.
     """
     query_embedding = np.array(request.json['query_embedding']).reshape(1, -1)
     k = request.json['k']
     _, index = indexes.search(query_embedding.astype(np.float32), k)
     documents = [index_document[str(i)] for i in index.tolist()[0]]
-    embeddings = [document_embedding[doc] for doc in documents]
-    return jsonify(documents=documents, documents_embeddings=embeddings)
+    return jsonify(documents=documents)
