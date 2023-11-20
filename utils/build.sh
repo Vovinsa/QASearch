@@ -39,4 +39,7 @@ echo "Building gateway..."
 docker build -t "$REGISTRY"/gateway:latest gateway/
 docker push "$REGISTRY"/gateway:latest
 
+echo "Pulling redis..."
+docker pull docker.io/library/redis:latest
+
 echo "Done!"
