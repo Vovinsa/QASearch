@@ -42,4 +42,8 @@ docker push "$REGISTRY"/gateway:latest
 echo "Pulling redis..."
 docker pull docker.io/library/redis:latest
 
+echo "Creating network..."
+docker network create --driver overlay qa-search-network
+echo "Done! Created qa-search-network"
+
 echo "Done!"
