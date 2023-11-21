@@ -135,6 +135,39 @@ Once all services are updated you can see the message "Done!".
 
 ---
 
+## KNRM: architecture, training and validation
+
+### Architecture
+
+- **Query:**
+A user's request for information
+- **Document:**
+Content returned as a result of a query
+- **Translation matrix:**
+Captures semantic relationships between query and document terms
+- **Kernels:**
+Mathematical functions modeling interactions between query and document terms
+- **Soft-TF:**
+Nuanced term frequency representation considering term importance
+- **Features:**
+Input variables for machine learning models, e.g., soft-TF, translation matrix values
+
+![knrm](.png/model.png)
+
+### Training
+
+The training process for Kernelized Neural Ranking Model `(KNRM)` utilizes a pairwise learning-to-rank loss. The optimization involves backpropagation `(BP)` through the neural network. Starting from the ranking loss, gradients propagate to the learning-to-rank part, updating ranking parameters `(w, b)`. Subsequently, kernels pass gradients to word similarities, and finally to embeddings
+
+![knrm training](.png/knrm_training.png)
+
+### Validation
+
+In `KNRM` validation, triplets aren't used. Instead, relevance is calculated individually for each document. The model computes relevance scores for documents in the validation set separately. The evaluation is then done using metrics like Normalized Discounted Cumulative Gain `(NDCG)`
+
+![knrm validation](.png/knrm_validation.png)
+
+---
+
 ## CI/CD
 
 - **Build QASearch Docker Images:**
