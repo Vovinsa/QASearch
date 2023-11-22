@@ -177,6 +177,8 @@ Navigates to the utils directory and executes any custom build and deploy script
 - **Run QASearch Tests:**
 Executes tests to ensure the quality and functionality of QASearch services
 
+![cicd pipeline](.png/cicd.png)
+
 ---
 
 ## Contacts
